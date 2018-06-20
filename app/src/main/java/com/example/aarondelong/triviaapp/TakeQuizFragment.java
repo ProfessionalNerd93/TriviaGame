@@ -25,7 +25,7 @@ public class TakeQuizFragment extends Fragment {
     @BindView(R.id.second_answer_button)
     protected Button secondAnswerButton;
 
-    @BindView(R.id.first_answer_button)
+    @BindView(R.id.third_answer_button)
     protected Button thirdAnswerButton;
 
     @BindView(R.id.fourth_answer_button)
