@@ -5,14 +5,14 @@ import android.os.Parcelable;
 
 public class Question implements Parcelable {
 
-    private String questions;
+    private String question;
     private String correctAnswer;
     private String wrongAnswerOne;
     private String wrongAnswerTwo;
     private String wrongAnswerThree;
 
     public Question(String question, String correctAnswer, String wrongAnswerOne, String wrongAnswerTwo, String wrongAnswerThree) {
-        this.questions = question;
+        this.question = question;
         this.correctAnswer = correctAnswer;
         this.wrongAnswerOne = wrongAnswerOne;
         this.wrongAnswerTwo = wrongAnswerTwo;
@@ -20,7 +20,7 @@ public class Question implements Parcelable {
     }
 
     protected Question(Parcel in) {
-        questions = in.readString();
+        question = in.readString();
         correctAnswer = in.readString();
         wrongAnswerOne = in.readString();
         wrongAnswerTwo = in.readString();
@@ -40,7 +40,7 @@ public class Question implements Parcelable {
     };
 
     public String getQuestion() {
-        return questions;
+        return question;
     }
 
     public String getCorrectAnswer() {
@@ -66,7 +66,7 @@ public class Question implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(questions);
+        parcel.writeString(question);
         parcel.writeString(correctAnswer);
         parcel.writeString(wrongAnswerOne);
         parcel.writeString(wrongAnswerTwo);

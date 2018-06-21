@@ -1,6 +1,8 @@
 package com.example.aarondelong.triviaapp;
 
+import android.content.DialogInterface;
 import android.os.Parcelable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -11,7 +13,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements QuestionCreatorFragment.Callback {
+public class MainActivity extends AppCompatActivity implements QuestionCreatorFragment.Callback, TakeQuizFragment.QuizCallback {
 
     private QuestionCreatorFragment questionCreatorFragment;
     private TakeQuizFragment quizFragment;
@@ -69,4 +71,50 @@ public class MainActivity extends AppCompatActivity implements QuestionCreatorFr
         }
 
     }
+
+
+    @Override
+    public void quizFinished(int correctAnswers) {
+        //        Removes the fragment from the layout.
+        getSupportFragmentManager().beginTransaction().remove(questionCreatorFragment).commit();
+    }
+
+    private void showQuizResultsAlertDialog(int correctAnswers){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Quiz Finished!")
+                .setMessage(getString(R.string.number_of_correct_answers, correctAnswers))
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).show();
+
+    }
+
+    @OnClick(R.id.delete_quiz_button)
+    protected void deleteQuizClicked() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Delete Quiz")
+                .setMessage(getString(R.string.delete_quiz))
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+
+    }
+
+
 }
+

@@ -39,6 +39,8 @@ public class TakeQuizFragment extends Fragment {
     private List<Question> questionsList;
     private Question question;
     private int questionListPosition = 0;
+    private int correctAnswers = 0;
+    private QuizCallback quizCallback;
 
 
     @Nullable
@@ -86,7 +88,7 @@ public class TakeQuizFragment extends Fragment {
 
         for (Button button : buttonList) {
 
-            int random = (int)(Math.random() * (possibleAnswersList.size() - 1));
+            int random = (int)Math.ceil(Math.random() * (possibleAnswersList.size() - 1));
 
             button.setText(possibleAnswersList.get(random));
             possibleAnswersList.remove(random);
@@ -94,28 +96,67 @@ public class TakeQuizFragment extends Fragment {
 
     }
 
+    private void checkAnswer(String answer) {
+//        Increments questionListPosition so we can go to the next question
+        questionListPosition++;
+
+
+        if (question.getCorrectAnswer().equals(answer)) {
+//            Sets textView to show the user they were correct
+            quizQuestion.setText("Correct!!!");
+//            Increments the correct answers the user has gotten
+            correctAnswers++;
+
+        } else {
+            quizQuestion.setText(getString(R.string.wrong_answer_text, question.getCorrectAnswer()));
+        }
+
+    }
+
     @OnClick(R.id.first_answer_button)
     protected void firstAnswerClicked() {
+
+        checkAnswer(firstAnswerButton.getText().toString());
 
     }
 
     @OnClick(R.id.second_answer_button)
     protected void secondAnswerClicked() {
 
+        checkAnswer(secondAnswerButton.getText().toString());
+
     }
 
     @OnClick(R.id.third_answer_button)
     protected void thirdAnswerClicked() {
+
+        checkAnswer(thirdAnswerButton.getText().toString());
 
     }
 
     @OnClick(R.id.fourth_answer_button)
     protected void fourthAnswerClicked() {
 
+        checkAnswer(fourthAnswerButton.getText().toString());
+
     }
 
     @OnClick(R.id.next_button)
     protected void nextButtonClicked() {
+
+        if (questionListPosition <= questionsList.size() - 1) {
+            populateQuizContent();
+
+        } else {
+//            Handling no more questions, taking user back to main activity
+            quizCallback.quizFinished(correctAnswers);
+        }
+
+    }
+
+    public interface QuizCallback {
+
+        void quizFinished(int correctAnswers);
 
     }
 
