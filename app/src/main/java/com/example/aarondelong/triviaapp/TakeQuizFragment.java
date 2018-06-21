@@ -10,9 +10,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.example.aarondelong.triviaapp.MainActivity.QUESTIONS_LIST;
 
 public class TakeQuizFragment extends Fragment {
 
@@ -30,6 +35,11 @@ public class TakeQuizFragment extends Fragment {
 
     @BindView(R.id.fourth_answer_button)
     protected Button fourthAnswerButton;
+
+    private List<Question> questionsList;
+    private Question question;
+    private int questionListPosition = 0;
+
 
     @Nullable
     @Override
@@ -49,10 +59,46 @@ public class TakeQuizFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        questionsList = getArguments().getParcelableArrayList(QUESTIONS_LIST);
+
+        populateQuizContent();
+    }
+
+    private void populateQuizContent() {
+        question = questionsList.get(questionListPosition);
+        quizQuestion.setText(question.getQuestion());
+
+        List<Button> buttonList = new ArrayList<>();
+        buttonList.add(firstAnswerButton);
+        buttonList.add(secondAnswerButton);
+        buttonList.add(thirdAnswerButton);
+        buttonList.add(fourthAnswerButton);
+
+        List<String> possibleAnswersList = new ArrayList<>();
+        possibleAnswersList.add(question.getCorrectAnswer());
+        possibleAnswersList.add(question.getWrongAnswerOne());
+        possibleAnswersList.add(question.getWrongAnswerTwo());
+        possibleAnswersList.add(question.getWrongAnswerThree());
+
+        for (Button button : buttonList) {
+
+            int random = (int)(Math.random() * (possibleAnswersList.size() - 1));
+
+            button.setText(possibleAnswersList.get(random));
+            possibleAnswersList.remove(random);
+        }
+
+    }
+
     @OnClick(R.id.first_answer_button)
     protected void firstAnswerClicked() {
 
     }
+
     @OnClick(R.id.second_answer_button)
     protected void secondAnswerClicked() {
 

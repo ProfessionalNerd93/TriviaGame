@@ -7,17 +7,23 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.example.aarondelong.triviaapp.MainActivity.QUESTIONS_LIST;
+
 public class QuestionCreatorFragment extends Fragment {
 
     @BindView(R.id.question_editText)
-    protected EditText question;
+    protected EditText quizQuestion;
 
     @BindView(R.id.correct_answer_editText)
     protected EditText correctAnswerInput;
@@ -36,10 +42,10 @@ public class QuestionCreatorFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-                View view = inflater.inflate(R.layout.fragment_question_creator, container, false);
+        View view = inflater.inflate(R.layout.fragment_question_creator, container, false);
         ButterKnife.bind(this, view);
 
-                return view;
+        return view;
     }
 
     public static QuestionCreatorFragment newInstance() {
@@ -54,14 +60,14 @@ public class QuestionCreatorFragment extends Fragment {
     @OnClick(R.id.save_question_button)
     protected void addQuestion() {
 
-        if (question.getText().toString().isEmpty() || correctAnswerInput.getText().toString().isEmpty() || firstWrongAnswerInput.getText().toString().isEmpty() || secondWrongAnswerInput.getText().toString().isEmpty() || thirdWrongAnswerInput.getText().toString().isEmpty()) {
+        if (quizQuestion.getText().toString().isEmpty() || correctAnswerInput.getText().toString().isEmpty() || firstWrongAnswerInput.getText().toString().isEmpty() || secondWrongAnswerInput.getText().toString().isEmpty() || thirdWrongAnswerInput.getText().toString().isEmpty()) {
 
             Toast.makeText(getActivity(), "All fields are required!", Toast.LENGTH_SHORT).show();
 
         } else {
 
 //        Gets user input from the EditTexts and saves them as variables
-            String questionTitle = question.getText().toString();
+            String questionTitle = quizQuestion.getText().toString();
             String correctAnswer = correctAnswerInput.getText().toString();
             String firstWrongAnswer = firstWrongAnswerInput.getText().toString();
             String secondWrongAnswer = secondWrongAnswerInput.getText().toString();

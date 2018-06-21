@@ -1,5 +1,6 @@
 package com.example.aarondelong.triviaapp;
 
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -10,10 +11,13 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity  implements QuestionCreatorFragment.Callback{
+public class MainActivity extends AppCompatActivity implements QuestionCreatorFragment.Callback {
 
     private QuestionCreatorFragment questionCreatorFragment;
+    private TakeQuizFragment quizFragment;
     private List<Question> questionsList;
+
+    public static final String QUESTIONS_LIST = "questions_list";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,24 @@ public class MainActivity extends AppCompatActivity  implements QuestionCreatorF
 
 //        Removes the fragment from the layout.
         getSupportFragmentManager().beginTransaction().remove(questionCreatorFragment).commit();
+
+    }
+
+    @OnClick(R.id.take_quiz_button)
+    protected void takeQuizClicked() {
+
+        if (questionsList.isEmpty()) {
+//            Handle Toast if there are no questions saved.
+            Toast.makeText(this, "You must create some questions first!", Toast.LENGTH_SHORT).show();
+
+        } else {
+//            Launch Fragment, pass in ParcelableArray
+            quizFragment = TakeQuizFragment.newInstance();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_holder, quizFragment).commit();
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList(QUESTIONS_LIST, (ArrayList<? extends Parcelable>) questionsList);
+
+        }
 
     }
 }
